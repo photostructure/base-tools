@@ -33,10 +33,10 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
 RUN mkdir -p /ps/app/tools && \
   git clone https://github.com/LibRaw/LibRaw.git && \
   cd LibRaw && \
-  git checkout --force adcb898a00746c8aa886eb06cc9f5a1cb1834fca && \
+  git checkout --force 01a2b7f3545705f38cfd4e9a3eee152ea8d1f967 && \
   autoreconf -fiv && \
   ./configure --prefix=/ps/app/tools && \
-  make -j24 && \
+  make -j8 && \
   make install && \
   rm $(find /ps/app/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") && \
   rmdir -p --ignore-fail-on-non-empty $(find /ps/app/tools -type d) && \ 
