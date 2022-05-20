@@ -17,6 +17,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   automake \
   bash \
   build-base \
+  ca-certificates \
   coreutils \
   git \
   lcms2-dev \
@@ -25,15 +26,14 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   orc-dev \
   pkgconf \
   python3-dev \
-  zlib-dev 
+  zlib-dev
 
 # We have to build libraw: the version from github has a bunch of bugfixes from
 # the official released version available to Alpine's `apk add`.
 
 RUN mkdir -p /ps/app/tools && \
-  git clone https://github.com/LibRaw/LibRaw.git && \
-  cd LibRaw && \
-  git checkout --force 01a2b7f3545705f38cfd4e9a3eee152ea8d1f967 && \
+  git clone https://github.com/LibRaw/LibRaw.git -b 01a2b7f3545705f38cfd4e9a3eee152ea8d1f967 --depth 1 /tmp/libraw && \
+  cd /tmp/libraw && \
   autoreconf -fiv && \
   ./configure --prefix=/ps/app/tools && \
   make -j8 && \
@@ -41,6 +41,13 @@ RUN mkdir -p /ps/app/tools && \
   rm $(find /ps/app/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") && \
   rmdir -p --ignore-fail-on-non-empty $(find /ps/app/tools -type d) && \ 
   strip /ps/app/tools/bin/* && \
-  rm -rf /tmp/LibRaw
+  rm -rf /tmp/libraw
 
 # Stripped LibRaw binaries should now be sitting in /ps/app/tools/bin.
+
+# TODO: support watchman? This tag fails to build boost:
+# RUN git clone https://github.com/facebook/watchman.git -b v2022.05.16.00 --depth 1 /tmp/watchman-src && \
+#   cd /tmp/watchman-src && \
+#   ./autogen.sh && \
+#   ./configure --enable-statedir=/tmp --enable-lenient --without-python --without-pcre --prefix=/ps/app/tools && \
+#   make && \
