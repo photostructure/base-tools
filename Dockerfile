@@ -32,9 +32,9 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
 # the official released version available to Alpine's `apk add`.
 
 RUN mkdir -p /ps/app/tools && \
-  git clone https://github.com/LibRaw/LibRaw.git --depth 1 /tmp/libraw && \
+  git clone https://github.com/LibRaw/LibRaw.git --depth 3 /tmp/libraw && \
   cd /tmp/libraw && \
-  git checkout --force 01a2b7f3545705f38cfd4e9a3eee152ea8d1f967 && \
+  git checkout --force a077aac05190530f22af4254a1e31745876d007f && \
   autoreconf -fiv && \
   ./configure --prefix=/ps/app/tools && \
   make -j8 && \
