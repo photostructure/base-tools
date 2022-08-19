@@ -1,17 +1,7 @@
 name: Build Docker Images
 
 on:
-  push:
-    branches:
-      - main
-      - alpha
-      - beta
-    tags:
-      - v*
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+  push
 
 jobs:
   build:
@@ -67,7 +57,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v3.0.0
+        uses: docker/build-push-action@v3.1.1
         with:
           context: .
           file: ./Dockerfile
