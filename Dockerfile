@@ -12,6 +12,8 @@ FROM node:lts-alpine as builder
 # Build requirements for native node libraries:
 # sharp needs lcms2, libjpeg, and liborc
 
+# `npm install --location=global npm` avoids npm warnings about being out of date.
+
 # 202208: we have to build libraw, as the version from github has a bunch of
 # bugfixes from the official released version available to Alpine's `apk add`.
 
@@ -30,7 +32,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   pkgconf \
   python3-dev \
   zlib-dev && \
-  npm install --location=global npm yarn && \
+  npm install --force --location=global npm yarn && \
   mkdir -p /ps/app/tools && \
   git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw && \
   cd /tmp/libraw && \
