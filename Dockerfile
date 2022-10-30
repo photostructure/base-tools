@@ -36,7 +36,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   mkdir -p /ps/app/tools && \
   git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw && \
   cd /tmp/libraw && \
-  git checkout --force 25836e711c3de05f6b09d6f8cb64d96d63600281 && \
+  git checkout --force a5a5fb16936f0d3da0ea2ee92e43f508921c121a && \
   autoreconf -fiv && \
   ./configure --prefix=/ps/app/tools && \
   make -j8 && \
