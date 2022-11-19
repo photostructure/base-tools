@@ -31,20 +31,20 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   orc-dev \
   pkgconf \
   python3-dev \
-  zlib-dev && \
-  npm install --force --location=global npm yarn && \
-  mkdir -p /ps/app/tools && \
-  git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw && \
-  cd /tmp/libraw && \
-  git checkout --force a5a5fb16936f0d3da0ea2ee92e43f508921c121a && \
-  autoreconf -fiv && \
-  ./configure --prefix=/ps/app/tools && \
-  make -j8 && \
-  make install && \
-  rm $(find /ps/app/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") && \
-  rmdir -p --ignore-fail-on-non-empty $(find /ps/app/tools -type d) && \ 
-  strip /ps/app/tools/bin/* && \
-  rm -rf /tmp/libraw
+  zlib-dev \
+  && npm install --force --location=global npm yarn \
+  && mkdir -p /ps/app/tools \
+  && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
+  && cd /tmp/libraw \
+  && git checkout --force b7771a8e4c01851f7674146e47f7a460633f5e99 \
+  && autoreconf -fiv \
+  && ./configure --prefix=/ps/app/tools \
+  && make -j `nproc` \
+  && make install \
+  && rm $(find /ps/app/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") \
+  && rmdir -p --ignore-fail-on-non-empty $(find /ps/app/tools -type d) \ 
+  && strip /ps/app/tools/bin/* \
+  && rm -rf /tmp/libraw
 
 # Stripped LibRaw binaries should now be sitting in /ps/app/tools/bin.
 
