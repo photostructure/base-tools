@@ -24,6 +24,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   build-base \
   ca-certificates \
   coreutils \
+  curl \
   git \
   lcms2-dev \
   libjpeg-turbo-dev \
@@ -45,12 +46,20 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && rmdir -p --ignore-fail-on-non-empty $(find /ps/app/tools -type d) \ 
   && strip /ps/app/tools/bin/* \
   && rm -rf /tmp/libraw
+  
+RUN mkdir -p /tmp/sqlite \
+  && cd /tmp/sqlite \
+  && curl https://sqlite.org/2022/sqlite-autoconf-3390400.tar.gz | tar -xz --strip 1 \
+  && ./configure --enable-static --enable-readline \
+  && make -j `nproc` \
+  && strip sqlite3 \
+  && cp -p sqlite3 /ps/app/tools/bin \
+  && rm -rf /tmp/sqlite
 
-# Stripped LibRaw binaries should now be sitting in /ps/app/tools/bin.
+# Note: fully static binaries would be a bit more portable, but installing
+# libjpeg isn't that big of a deal.
 
-# TODO: support watchman? This tag fails to build boost:
-# RUN git clone https://github.com/facebook/watchman.git -b v2022.05.16.00 --depth 1 /tmp/watchman-src && \
-#   cd /tmp/watchman-src && \
-#   ./autogen.sh && \
-#   ./configure --enable-statedir=/tmp --enable-lenient --without-python --without-pcre --prefix=/ps/app/tools && \
-#   make && \
+# Stripped LibRaw and SQLite binaries should now be sitting in
+# /ps/app/tools/bin.
+
+# docker build -t photostructure/base-tools .
