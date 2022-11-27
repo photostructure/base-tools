@@ -37,7 +37,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /ps/app/tools \
   && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
   && cd /tmp/libraw \
-  && git checkout --force b7771a8e4c01851f7674146e47f7a460633f5e99 \
+  && git checkout --force 42a95f09b47b13f6b118a75d67cb47c12805b5f4 \
   && autoreconf -fiv \
   && ./configure --prefix=/ps/app/tools \
   && make -j `nproc` \
@@ -49,7 +49,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   
 RUN mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
-  && curl https://sqlite.org/2022/sqlite-autoconf-3390400.tar.gz | tar -xz --strip 1 \
+  && curl https://sqlite.org/2022/sqlite-autoconf-3040000.tar.gz | tar -xz --strip 1 \
   && ./configure --enable-static --enable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
