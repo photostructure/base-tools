@@ -5,7 +5,8 @@
 # <https://forum.photostructure.com/>
 
 # See https://hub.docker.com/_/node/
-FROM node:lts-alpine as builder
+# This was equivalent to "lts-alpine" 2022-11-28
+FROM node:18-alpine3.16 as builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
@@ -37,7 +38,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /ps/app/tools \
   && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
   && cd /tmp/libraw \
-  && git checkout --force 42a95f09b47b13f6b118a75d67cb47c12805b5f4 \
+  && git checkout --force a5a5fb16936f0d3da0ea2ee92e43f508921c121a \
   && autoreconf -fiv \
   && ./configure --prefix=/ps/app/tools \
   && make -j `nproc` \
