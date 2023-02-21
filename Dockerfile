@@ -5,7 +5,7 @@
 # <https://forum.photostructure.com/>
 
 # See https://hub.docker.com/_/node/
-# This was equivalent to "lts-alpine" 2022-11-28
+# This was equivalent to "lts-alpine" 2023-02-21
 FROM node:18-alpine3.17 as builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
