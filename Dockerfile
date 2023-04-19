@@ -35,17 +35,17 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   python3-dev \
   zlib-dev \
   && npm install --force --location=global npm yarn \
-  && mkdir -p /ps/app/tools \
+  && mkdir -p /opt/photostructure/tools \
   && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
   && cd /tmp/libraw \
   && git checkout --force a5a5fb16936f0d3da0ea2ee92e43f508921c121a \
   && autoreconf -fiv \
-  && ./configure --prefix=/ps/app/tools \
+  && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
   && make install \
-  && rm $(find /ps/app/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") \
-  && rmdir -p --ignore-fail-on-non-empty $(find /ps/app/tools -type d) \ 
-  && strip /ps/app/tools/bin/* \
+  && rm $(find /opt/photostructure/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") \
+  && rmdir -p --ignore-fail-on-non-empty $(find /opt/photostructure/tools -type d) \ 
+  && strip /opt/photostructure/tools/bin/* \
   && rm -rf /tmp/libraw
   
 RUN mkdir -p /tmp/sqlite \
@@ -54,13 +54,13 @@ RUN mkdir -p /tmp/sqlite \
   && ./configure --enable-static --enable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
-  && cp -p sqlite3 /ps/app/tools/bin \
+  && cp -p sqlite3 /opt/photostructure/tools/bin \
   && rm -rf /tmp/sqlite
 
 # Note: fully static binaries would be a bit more portable, but installing
 # libjpeg isn't that big of a deal.
 
 # Stripped LibRaw and SQLite binaries should now be sitting in
-# /ps/app/tools/bin.
+# /opt/photostructure/tools/bin.
 
 # docker build -t photostructure/base-tools .
