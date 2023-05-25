@@ -5,8 +5,8 @@
 # <https://forum.photostructure.com/>
 
 # See https://hub.docker.com/_/node/
-# This was equivalent to "lts-alpine" 2023-02-21
-FROM node:18-alpine3.17 as builder
+# This will be equivalent to "lts-alpine" later in 2023:
+FROM node:20-alpine3.17 as builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
@@ -38,7 +38,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /opt/photostructure/tools \
   && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
   && cd /tmp/libraw \
-  && git checkout --force a5a5fb16936f0d3da0ea2ee92e43f508921c121a \
+  && git checkout --force 6fffd414bfda63dfef2276ae07f7ca36660b8888 \
   && autoreconf -fiv \
   && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
@@ -46,18 +46,17 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && rm $(find /opt/photostructure/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") \
   && rmdir -p --ignore-fail-on-non-empty $(find /opt/photostructure/tools -type d) \ 
   && strip /opt/photostructure/tools/bin/* \
-  && rm -rf /tmp/libraw
-  
-RUN mkdir -p /tmp/sqlite \
+  && rm -rf /tmp/libraw \
+  && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
-  && curl https://sqlite.org/2022/sqlite-autoconf-3400000.tar.gz | tar -xz --strip 1 \
-  && ./configure --enable-static --enable-readline \
+  && curl https://sqlite.org/2023/sqlite-autoconf-3420000.tar.gz | tar -xz --strip 1 \
+  && ./configure --disable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
   && cp -p sqlite3 /opt/photostructure/tools/bin \
   && rm -rf /tmp/sqlite
 
-# Note: fully static binaries would be a bit more portable, but installing
+# Note: static binaries would be a bit more portable, but installing
 # libjpeg isn't that big of a deal.
 
 # Stripped LibRaw and SQLite binaries should now be sitting in
