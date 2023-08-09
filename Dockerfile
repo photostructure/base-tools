@@ -6,7 +6,7 @@
 
 # See https://hub.docker.com/_/node/
 # This will be equivalent to "lts-alpine" later in 2023:
-FROM node:20-alpine3.17 as builder
+FROM node:20-alpine3.18 as builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
