@@ -38,7 +38,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /opt/photostructure/tools \
   && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
   && cd /tmp/libraw \
-  && git checkout --force a14574080aa902fa8d6a982adc169429610bd3ea \
+  && git checkout --force 41506ef73e33c5e0c3b94608cce2481d92003d5d \
   && autoreconf -fiv \
   && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
