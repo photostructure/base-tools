@@ -53,7 +53,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && rm -rf /tmp/libraw \
   && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
-  && curl https://sqlite.org/2023/sqlite-autoconf-3430200.tar.gz | tar -xz --strip 1 \
+  && curl https://sqlite.org/2023/sqlite-autoconf-3440000.tar.gz | tar -xz --strip 1 \
   && ./configure --disable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
