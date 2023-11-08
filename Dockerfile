@@ -8,6 +8,10 @@
 # This will be equivalent to "lts-alpine" later in 2023:
 FROM node:20-alpine3.18 as builder
 
+# These confuse my users. We don't need them. This is how you delete ENVs:
+ENV NODE_VERSION=
+ENV YARN_VERSION=
+
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
 # Build requirements for native node libraries:
