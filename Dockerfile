@@ -5,7 +5,7 @@
 # <https://forum.photostructure.com/>
 
 # See https://hub.docker.com/_/node/
-FROM node:20-alpine as builder
+FROM node:20.10.0-alpine as builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
