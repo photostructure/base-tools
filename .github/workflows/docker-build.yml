@@ -26,6 +26,10 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: photostructure/base-tools,ghcr.io/photostructure/base-tools
+          labels: |
+            org.opencontainers.image.title="PhotoStructure base tools"
+            org.opencontainers.image.description="This image is used to compile native dependencies used by the PhotoStructure for Docker image"
+            org.opencontainers.image.documentation="https://photostructure.com/server/photostructure-for-docker/"
           tags: |
             # minimal git SHA tag
             type=sha
@@ -57,5 +61,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          labels: ${{ steps.meta.outputs.labels }}
