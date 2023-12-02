@@ -36,6 +36,8 @@ jobs:
         with:
           images: photostructure/base-tools,ghcr.io/photostructure/base-tools
           tags: |
+            # minimal git SHA tag
+            type=sha
             type=ref,event=branch
             type=ref,event=tag
             type=raw,value=latest,enable={{is_default_branch}}
