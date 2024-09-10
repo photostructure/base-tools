@@ -5,7 +5,7 @@
 # <https://forum.photostructure.com/>
 
 # See https://hub.docker.com/_/node/
-FROM node:20.11-alpine as builder
+FROM node:20.17-alpine as builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
@@ -37,7 +37,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /opt/photostructure/tools \
   && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
   && cd /tmp/libraw \
-  && git checkout --force a4c9b1981ee4ac2a144e7a290988428cc5bb7e85 \
+  && git checkout --force 70f511871e002942d3e6b60c99fe04ce5c0c605b \
   && autoreconf -fiv \
   && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
@@ -48,7 +48,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && rm -rf /tmp/libraw \
   && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
-  && curl https://sqlite.org/2024/sqlite-autoconf-3450200.tar.gz | tar -xz --strip 1 \
+  && curl https://sqlite.org/2024/sqlite-autoconf-3460100.tar.gz | tar -xz --strip 1 \
   && ./configure --disable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
