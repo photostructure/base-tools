@@ -49,7 +49,6 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && make install \
   && rm $(find /opt/photostructure/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") \
   && rmdir -p --ignore-fail-on-non-empty $(find /opt/photostructure/tools -type d) \ 
-  && strip /opt/photostructure/tools/bin/* \
   && rm -rf /tmp/libraw \
   && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
@@ -58,7 +57,8 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && make -j `nproc` \
   && strip sqlite3 \
   && cp -p sqlite3 /opt/photostructure/tools/bin \
-  && rm -rf /tmp/sqlite
+  && rm -rf /tmp/sqlite \
+  && strip /opt/photostructure/tools/bin/*
 
 # Note: static binaries would be a bit more portable, but installing
 # libjpeg isn't that big of a deal.
