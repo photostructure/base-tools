@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
 # Howdy, need help? See
-# <https://photostructure.com/server/photostructure-for-docker/> and
-# <https://forum.photostructure.com/>
+# https://photostructure.com/server/photostructure-for-docker/ and
+# https://forum.photostructure.com/
 
 # See https://hub.docker.com/_/node/
-FROM node:20.17-alpine as builder
+FROM node:22.14-alpine AS builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
@@ -17,6 +17,12 @@ FROM node:20.17-alpine as builder
 # 202208: we have to build libraw, as the version from github has a bunch of
 # bugfixes from the official released version available to Alpine's `apk add`.
 
+# 20250315: instead of git, we're using GitHub REST API to download a specific
+# commit of LibRaw. See
+# https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives
+# and
+# https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#download-a-repository-archive-tar
+
 RUN apk update ; apk upgrade ; apk add --no-cache \
   autoconf \
   automake \
@@ -25,7 +31,6 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   ca-certificates \
   coreutils \
   curl \
-  git \
   lcms2-dev \
   libjpeg-turbo-dev \
   libtool \
@@ -35,9 +40,9 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   zlib-dev \
   && npm install --force --location=global npm yarn \
   && mkdir -p /opt/photostructure/tools \
-  && git clone https://github.com/LibRaw/LibRaw.git /tmp/libraw \
+  && mkdir -p /tmp/libraw \
   && cd /tmp/libraw \
-  && git checkout --force 70f511871e002942d3e6b60c99fe04ce5c0c605b \
+  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/09bea31181b43e97959ee5452d91e5bc66365f1f | tar -xz --strip 1 \
   && autoreconf -fiv \
   && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
@@ -48,7 +53,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && rm -rf /tmp/libraw \
   && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
-  && curl https://sqlite.org/2024/sqlite-autoconf-3460100.tar.gz | tar -xz --strip 1 \
+  && curl https://sqlite.org/2025/sqlite-autoconf-3490100.tar.gz | tar -xz --strip 1 \
   && ./configure --disable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
