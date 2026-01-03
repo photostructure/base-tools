@@ -5,6 +5,8 @@
 # https://forum.photostructure.com/
 
 # See https://hub.docker.com/_/node/
+# We use node:24 (not node:24.x) because native modules use N-API which is
+# ABI-stable across Node versions. This allows automatic security patches.
 FROM node:24-alpine AS builder
 
 # https://docs.docker.com/develop/develop-images/multistage-build/
