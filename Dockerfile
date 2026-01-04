@@ -39,6 +39,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   orc-dev \
   pkgconf \
   python3-dev \
+  util-linux-dev \
   zlib-dev \
   && npm install --force --location=global npm yarn \
   && mkdir -p /opt/photostructure/tools \
