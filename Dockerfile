@@ -45,7 +45,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /opt/photostructure/tools \
   && mkdir -p /tmp/libraw \
   && cd /tmp/libraw \
-  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/0339685891bd485c3568309aaba369afd29bbacd | tar -xz --strip 1 \
+  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/0.22.0 | tar -xz --strip 1 \
   && autoreconf -fiv \
   && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
@@ -55,7 +55,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && rm -rf /tmp/libraw \
   && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
-  && curl https://sqlite.org/2025/sqlite-autoconf-3510100.tar.gz | tar -xz --strip 1 \
+  && curl https://sqlite.org/2026/sqlite-autoconf-3510200.tar.gz | tar -xz --strip 1 \
   && ./configure --disable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
