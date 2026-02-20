@@ -45,6 +45,8 @@ The Dockerfile uses a single build stage (`AS builder`) on `node:24-alpine`:
 
 Output artifacts live at `/opt/photostructure/tools/` and are consumed by downstream PhotoStructure Docker images.
 
+**Note:** Unlike `base-tools-debian`, this image does NOT build jpegtran from source. Alpine's `libjpeg-turbo-progs` package (installed at runtime by the downstream server Dockerfile) provides jpegtran. The Debian variant builds a static jpegtran because it also supplies binaries for Desktop/Node editions via `photostructure/tools/Dockerfile`.
+
 ## Updating Dependencies
 
 When bumping LibRaw:
