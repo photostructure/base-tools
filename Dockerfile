@@ -45,7 +45,7 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /opt/photostructure/tools \
   && mkdir -p /tmp/libraw \
   && cd /tmp/libraw \
-  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/0.22.0 | tar -xz --strip 1 \
+  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/0b56545a4f828743f28a4345cdfdd4c49f9f9a2a | tar -xz --strip 1 \
   && autoreconf -fiv \
   && ./configure --prefix=/opt/photostructure/tools \
   && make -j `nproc` \
