@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Builds a minimal Alpine Linux Docker image (`photostructure/base-tools`) that compiles and bundles native dependencies for PhotoStructure for Docker:
 
 - **LibRaw** (image processing for raw camera files) — compiled from source, installed to `/opt/photostructure/tools`
-- **SQLite 3** — compiled without readline, stripped binary installed to `/opt/photostructure/tools/bin`
+- **SQLite 3** — compiled without readline, stripped binary installed to `/opt/photostructure/tools`
 
 The final image is published to Docker Hub (`photostructure/base-tools`) and GHCR (`ghcr.io/photostructure/base-tools`) for both `linux/amd64` and `linux/arm64`.
 
@@ -40,10 +40,10 @@ The Dockerfile uses a single build stage (`AS builder`) on `node:24-alpine`:
 1. `apk add` build dependencies (autoconf, automake, lcms2-dev, libjpeg-turbo-dev, orc-dev, zlib-dev, util-linux-dev, etc.)
 2. Download LibRaw via GitHub REST API tarball (by commit SHA), build with `./configure --prefix=/opt/photostructure/tools && make`
 3. Remove everything from the LibRaw install except `libraw.so`, `dcraw_emu`, and `raw-identify`
-4. Download SQLite autoconf tarball from sqlite.org, build with `--disable-readline`, strip and copy to `/opt/photostructure/tools/bin`
-5. Strip all binaries in `/opt/photostructure/tools/bin`
+4. Download SQLite autoconf tarball from sqlite.org, build with `--disable-readline`, strip and copy to `/opt/photostructure/tools`
+5. Strip all binaries in `/opt/photostructure/tools`
 
-Output artifacts live at `/opt/photostructure/tools/bin/` and are consumed by downstream PhotoStructure Docker images.
+Output artifacts live at `/opt/photostructure/tools/` and are consumed by downstream PhotoStructure Docker images.
 
 ## Updating Dependencies
 

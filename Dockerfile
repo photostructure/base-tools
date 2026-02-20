@@ -45,13 +45,13 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && mkdir -p /opt/photostructure/tools \
   && mkdir -p /tmp/libraw \
   && cd /tmp/libraw \
-  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/0b56545a4f828743f28a4345cdfdd4c49f9f9a2a | tar -xz --strip 1 \
+  && curl -L https://api.github.com/repos/LibRaw/LibRaw/tarball/ca5d4507ef6f64cbf753fbc40c71773bb697fff9 | tar -xz --strip 1 \
   && autoreconf -fiv \
-  && ./configure --prefix=/opt/photostructure/tools \
+  && ./configure --prefix=/tmp/libraw/install \
   && make -j `nproc` \
   && make install \
-  && rm $(find /opt/photostructure/tools -type f | grep -vE "libraw.so|dcraw_emu|raw-identify") \
-  && rmdir -p --ignore-fail-on-non-empty $(find /opt/photostructure/tools -type d) \ 
+  && cp -p /tmp/libraw/install/bin/dcraw_emu /tmp/libraw/install/bin/raw-identify /opt/photostructure/tools/ \
+  && cp -p /tmp/libraw/install/lib/libraw.so* /opt/photostructure/tools/ \
   && rm -rf /tmp/libraw \
   && mkdir -p /tmp/sqlite \
   && cd /tmp/sqlite \
@@ -59,14 +59,14 @@ RUN apk update ; apk upgrade ; apk add --no-cache \
   && ./configure --disable-readline \
   && make -j `nproc` \
   && strip sqlite3 \
-  && cp -p sqlite3 /opt/photostructure/tools/bin \
+  && cp -p sqlite3 /opt/photostructure/tools/ \
   && rm -rf /tmp/sqlite \
-  && strip /opt/photostructure/tools/bin/*
+  && strip /opt/photostructure/tools/*
 
 # Note: static binaries would be a bit more portable, but installing
 # libjpeg isn't that big of a deal.
 
 # Stripped LibRaw and SQLite binaries should now be sitting in
-# /opt/photostructure/tools/bin.
+# /opt/photostructure/tools/.
 
 # docker build -t photostructure/base-tools .
